@@ -1,9 +1,9 @@
 import axios from 'axios'
 import { message } from 'ant-design-vue'
-
+import { getToken } from '@/utils/auth'
 // 创建 Axios 实例
 const myAxios = axios.create({
-  baseURL: '', // 后端请求URL
+  // baseURL: 'http://localhost:8080', // 后端请求URL
   timeout: 5 * 60 * 1000, // 超时时间
   withCredentials: true, // 发送请求时携带cookie信息
 })
@@ -12,6 +12,12 @@ const myAxios = axios.create({
 myAxios.interceptors.request.use(
   (config) => {
     // 在发送请求之前做些什么
+    // 获取token
+    const token = getToken()
+    if (token) {
+      // 将token添加到请求头中
+      config.headers['X-Token'] = token
+    }
     return config
   },
   (error) => {

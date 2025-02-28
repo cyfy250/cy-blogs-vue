@@ -5,11 +5,7 @@
 </template>
 
 <script setup lang="ts">
-import { testUsingGet } from "@/api/testController";
 
-testUsingGet().then((res) => {
-  console.log(res);
-})
 
 </script>
 

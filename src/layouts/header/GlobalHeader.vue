@@ -4,28 +4,16 @@
       <a-col flex="200px">
         <RouterLink to="/">
           <div class="title-bar">
-            <img class="logo" src="../assets/logo.jpeg" alt="logo" />
+            <img class="logo" src="@/assets/logo.jpeg" alt="logo" />
             <div class="title">我的博客</div>
           </div>
         </RouterLink>
       </a-col>
       <a-col flex="auto">
-        <a-menu
-          v-model:selectedKeys="current"
-          mode="horizontal"
-          :items="items"
-          @click="doMenuClick"
-        />
+        <a-menu v-model:selectedKeys="current" mode="horizontal" :items="items" @click="doMenuClick" />
       </a-col>
       <a-col flex="120px">
-        <div class="user-login-status">
-          <div v-if="loginUserStore.loginUser.id">
-            {{ loginUserStore.loginUser.userName ?? '无名' }}
-          </div>
-          <div v-else>
-            <a-button type="primary" href="/user/login">登录</a-button>
-          </div>
-        </div>
+        <LoginUserModule />
       </a-col>
     </a-row>
 
@@ -35,14 +23,15 @@
 <script lang="ts" setup>
 import { h, ref } from 'vue';
 import { HomeOutlined } from '@ant-design/icons-vue';
-import type { MenuProps } from 'ant-design-vue';
+import { type MenuProps } from 'ant-design-vue';
 import { useRouter } from 'vue-router';
-import { useLoginUserStore } from '@/stores/useLoginUserStore'
-
-const loginUserStore = useLoginUserStore()
+import LoginUserModule from './component/LoginUserModule.vue';
 const router = useRouter();
+
+
+
 // 菜单点击事件，跳转指定路由
-const doMenuClick = ({key} : { key: string }) =>{
+const doMenuClick = ({ key }: { key: string }) => {
   router.push({
     path: key
   });
@@ -54,7 +43,6 @@ const current = ref<string[]>(['/']);
 router.afterEach((to) => {
   current.value = [to.path];
 });
-
 
 // 菜单项
 const items = ref<MenuProps['items']>([
@@ -70,6 +58,8 @@ const items = ref<MenuProps['items']>([
     title: '关于',
   },
 ]);
+
+
 </script>
 
 <style scoped>
@@ -87,4 +77,6 @@ const items = ref<MenuProps['items']>([
 .logo {
   height: 48px;
 }
+
+
 </style>
